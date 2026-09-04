@@ -44,4 +44,4 @@
 
 ## Артефакты
 
-- [OpenAPI спецификация](./openapi-2%20\(1\).yaml)
+- [OpenAPI спецификация](https://github.com/zerbalieva/portfolio/blob/main/search-microservice/openapi-2%20(1).yaml)
