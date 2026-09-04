@@ -66,8 +66,8 @@
 
 ### Документация API
 
-[OpenAPI specification](02-music-moderation/openapi.yaml)
+[OpenAPI specification](03-music/openapi.yaml)
 
 ### Диаграмма взаимодействия
 
-![Sequence Diagram](02-music-moderation/sequence-diagram.png)
+![Sequence Diagram](02-music-moderation/photo_2026-09-03 21.40.35.jpeg)
