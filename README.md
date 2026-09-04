@@ -15,7 +15,6 @@
 - PostgreSQL
 - Kafka
 - Микросервисная архитектура
-- User Story Map
 
 ### Курсы
 ![сертификат Python](https://github.com/zerbalieva/portfolio/blob/main/stepik-certificate-58852-15eadee%20(1).pdf)
