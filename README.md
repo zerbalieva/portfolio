@@ -70,4 +70,4 @@
 
 ### Диаграмма взаимодействия
 
-![Sequence Diagram](02-music-moderation/photo_2026-09-03 21.40.35.jpeg)
+![Sequence Diagram](https://github.com/zerbalieva/portfolio/blob/main/02-music-moderation/photo_2026-09-03%2021.40.35.jpeg)
