@@ -61,13 +61,14 @@
 - спроектирована модель данных PostgreSQL;
 - использованы JSONB-поля;
 - описан REST API;
-- подготовлена документация OpenAPI;
 - построена UML Sequence Diagram.
+
+### Диаграмма взаимодействия
+
+![Sequence Diagram](https://github.com/zerbalieva/portfolio/blob/main/02-music-moderation/photo_2026-09-03%2021.40.35.jpeg)
+
 
 ### Документация API
 
 [OpenAPI specification](03-music/openapi.yaml)
 
-### Диаграмма взаимодействия
-
-![Sequence Diagram](https://github.com/zerbalieva/portfolio/blob/main/02-music-moderation/photo_2026-09-03%2021.40.35.jpeg)
