@@ -71,7 +71,8 @@
 ![Sequence Diagram](https://github.com/zerbalieva/portfolio/blob/main/02-music-moderation/photo_2026-09-03%2021.40.35.jpeg)
 
 
-### Документация API
+## Проект 3: Search Microservice (OpenAPI спецификация)
 
-[OpenAPI specification](03-music/openapi.yaml)
-
+- OpenAPI 3.0.4 спецификация для микросервиса поиска музыкальных сущностей
+- Описаны эндпоинты: `/search`, `/create_playlist`, `/add_track_to_playlist`
+- [Подробнее](./search-microservice/README.md)
