@@ -1,0 +1,402 @@
+openapi: 3.0.4
+info:
+  title: Search Microservice
+  description: Поиск музыкальных сущностей (артисты, треки, альбомы, подкасты)
+  version: 1.0.12
+servers:
+  - url: https://music.yandex.ru/api/v1
+paths:
+  /search:
+    post:
+      tags:
+        - search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Bad Request (отсутствует или пустой query)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error (ошибка БД или таймаут)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /create_playlist:
+    post:
+      tags:
+        - playlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistRequest'
+      responses:
+        '201':
+          description: Playlist created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaylistResponse'
+        '400':
+          description: Invalid input
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /add_track_to_playlist:
+    post:
+      tags:
+        - playlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTrackRequest'
+      responses:
+        '200':
+          description: Track added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddTrackResponse'
+        '400':
+          description: Invalid input
+        '404':
+          description: Playlist or track not found
+        '409':
+          description: Track already exists in playlist
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    SearchRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: поисковый запрос 
+          example: "lana"
+        total:
+          type: object
+          description: Общее количество найденных сущностей по типам
+          properties:
+            artists:
+              type: integer
+              example: 3
+            tracks:
+              type: integer
+              example: 3
+            albums:
+              type: integer
+              example: 1
+            playlists:
+              type: integer
+              example: 2
+            audiobooks:
+              type: integer
+              example: 1
+            podcasts:
+              type: integer
+              example: 1
+    SearchResponse:
+      type: object
+      properties:
+        results:
+          type: object
+          properties:
+            artists:
+              type: array
+              items:
+                $ref: '#/components/schemas/artist'
+            tracks:
+              type: array
+              items:
+                $ref: '#/components/schemas/track'
+            albums:
+              type: array
+              items:
+                $ref: '#/components/schemas/album'
+            playlists:
+              type: array
+              items:
+                $ref: '#/components/schemas/playlist'
+            podcasts:
+              type: array
+              items:
+                $ref: '#/components/schemas/podcast'
+            audiobooks:
+              type: array
+              items:
+                $ref: '#/components/schemas/audiobook'
+    artist:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 111
+        name:
+          type: string
+          example: lana del rey
+    track:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: ABYSS
+        artists:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 111
+              name:
+                type: string
+                example: lana del rey
+              role: 
+                type: string
+                example: singer
+                enum:
+                  - singer
+                  - narrator
+                  - podcaster
+                  - author
+    album:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 10
+        title:                                    
+          type: string
+          example: born to die
+        genre:
+          type: string
+          example: pop
+        description:
+          type: string
+          example: debut album
+        releaseDate:
+          type: string
+          format: date-time
+          example: 01.01.2012
+    playlist:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        title:
+          type: string
+          example: sad mood
+        description:
+          type: string
+          example: music for night
+        createdAt:
+          type: string
+          format: date-time
+          example: 07.02.2026
+        isPublic:
+          type: boolean
+          example: true
+        owner:
+          type: array
+          items:
+            type: object
+            properties: 
+              id:
+                type: integer
+                example: 5
+              username:
+                type: string
+                example: mcuil
+    audiobook:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        title:
+          type: string
+          example: psychology
+        description:
+          type: string 
+          example: classic psychology
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              start_time:
+                type: integer
+                example: 0
+              end_time:
+                type: integer
+                example: 420
+              title:
+                type: string
+                example: chapter 1
+              info:
+                type: string
+                example: введение в историю
+    podcast:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        title:
+          type: string
+          example: my ins and outs for 2026
+        description:
+          type: string 
+          example: lifestyle podcast
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 3
+              start_time:
+                type: integer
+                example: 0
+              end_time:
+                type: integer
+                example: 180
+              title:
+                type: string
+                example: intro
+              info:
+                type: string
+                example: приветствие и тема выпуска
+    PlaylistRequest:
+      type: object
+      required:
+        - title
+        - isPublic
+        - userId
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        isPublic:
+          type: boolean
+        userId:
+          type: integer
+    PlaylistResponse:
+      type: object
+      properties:
+        playlist:
+          type: object
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            description:
+              type: string
+            isPublic:
+              type: boolean
+            createdAt:
+              type: string
+              format: date-time
+        owner:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+    AddTrackRequest:
+      type: object
+      required:
+        - playlistId
+        - trackId
+      properties:
+        playlistId:
+          type: integer
+        trackId:
+          type: integer
+    AddTrackResponse:
+      type: object
+      properties:
+        playlist:
+          type: object
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            tracks:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  duration:
+                    type: integer
+                  releaseDate:
+                    type: string
+                    format: date-time
+                  artists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        role:
+                          type: string
+    error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 500
+        code:
+          type: string
+          example: "EXTERNAL_SYSTEM_ERROR"
+        message:
+          type: string
+          example: "Database connection timeout"
+      required:
+        - status
+        - code
+        - message
